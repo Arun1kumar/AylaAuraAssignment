@@ -242,11 +242,16 @@ class LoginViewController: UIViewController {
         else {
             
             self.dismissKeyboard()
-            
+
             // Login with login manager
             self.presentLoading("Resending confirmation...")
             let loginManager = AylaNetworks.shared().loginManager
-            let template = AylaEmailTemplate(id: "com.template.signUp", subject: "Confirm your email", bodyHTML: nil)
+            
+// Case : Get The Current Language and set Template ID Accordingly (i.e Hindi or English)
+            let lang = Locale.preferredLanguages[0]
+            let tempID = (lang == "hi-US") ? "com.temp.hindi" : "com.temp.eng" 
+            let template = AylaEmailTemplate(id: tempID, subject: "Confirm your email", bodyHTML: nil)
+            // Case : End
             loginManager.resendConfirmationEmail(usernameTextField.text!, emailTemplate: template, success: {
                 self.dismissLoading(false, completion: { () -> Void in
                     UIAlertController.alert("Confirmation resent", message: "Please check your inbox", buttonTitle: "OK", fromController: self)
@@ -275,7 +280,11 @@ class LoginViewController: UIViewController {
             // Login with login manager
             self.presentLoading("Resetting password...")
             let loginManager = AylaNetworks.shared().loginManager
-            let template = AylaEmailTemplate(id: "com.template.signUp", subject: "Password Reset Request", bodyHTML: nil)
+    // Case : Get The Current Language and set Template ID Accordingly (i.e Hindi or English)
+            let lang = Locale.preferredLanguages[0]
+            let tempID = (lang == "hi-US") ? "com.temp.hindi" : "com.temp.eng"
+            let template = AylaEmailTemplate(id: tempID, subject: "Password Reset Request", bodyHTML: nil)
+            // End
             loginManager.requestPasswordReset(usernameTextField.text!, emailTemplate: template, success: {
                 self.dismissLoading(false, completion: { () -> Void in
                     UIAlertController.alert("Password reset requested", message: "Please check your email for instructions on how to reset your password.", buttonTitle: "OK", fromController: self)

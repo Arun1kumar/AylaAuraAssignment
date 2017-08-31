@@ -88,8 +88,11 @@ class SignupTableViewController: UITableViewController {
             user.devKitNum = devKitNumber as NSNumber?
         }
         
-        let emailTemplate = AylaEmailTemplate(id: "com.template.signUp", subject: "Aura Signup", bodyHTML: nil)
-        
+        let lang = Locale.preferredLanguages[0]
+
+// Case : Get the Current Language and set Template ID Accordingly (i.e Hindi or English)
+        let tempID = (lang == "hi-US") ? "com.temp.hindi" : "com.temp.eng"
+        let emailTemplate = AylaEmailTemplate(id: tempID, subject: "Aura Signup", bodyHTML: nil)
         signupButton.isEnabled = false
         signupButton.alpha = 0.6
         let loginManager = AylaNetworks.shared().loginManager
